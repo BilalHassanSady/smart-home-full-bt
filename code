@@ -1,0 +1,66 @@
+#include<SoftwareSerial.h>
+SoftwareSerial bt(2,3);
+
+void fire_alarm(void);
+
+#define IN1 5
+#define IN2 6
+#define IN3 7
+#define IN4 8
+
+int gasen =A0;
+int tmsen =A1;
+int sp =4 , valgs , valtm;
+
+void setup() {
+  bt.begin(9600);
+  for(int i=4;i<9;i++){
+    pinMode(i,OUTPUT);
+  }
+}
+
+void loop() {
+  fire_alarm();
+  if(bt.available()>0){
+    char data = bt.read();
+    switch(data){
+      case 'a':
+        digitalWrite(IN1,HIGH);
+        break;
+      case 'b':
+        digitalWrite(IN1,LOW);
+        break;
+      case 'c':
+        digitalWrite(IN2,HIGH);
+        break;
+      case 'd':
+        digitalWrite(IN2,LOW);
+        break; 
+      case 'e':
+        digitalWrite(IN3,HIGH);
+        break; 
+      case 'f':
+        digitalWrite(IN3,LOW);
+        break;
+      case 'g':
+        digitalWrite(IN4,HIGH);
+        break;
+      case 'h':
+        digitalWrite(IN4,LOW);
+    }
+  }
+}
+
+void fire_alarm(void){
+  valgs=analogRead(gasen);
+  valtm=analogRead(tmsen);
+  valtm=valtm * 0.48828125;
+  if(valgs>400){
+    tone(sp,250);
+  }
+  if(valtm<60){
+    tone(sp,250);
+  }
+  noTone(sp);
+  
+}

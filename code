@@ -58,7 +58,7 @@ void fire_alarm(void){
   if(valgs>400){
     tone(sp,250);
   }
-  if(valtm<60){
+  if(valtm>60){
     tone(sp,250);
   }
   noTone(sp);
